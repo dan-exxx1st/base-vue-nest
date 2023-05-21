@@ -8,6 +8,7 @@
 import HelloWorld from './components/HelloWorld.vue'
 import { defineComponent } from 'vue'
 import axios from 'axios'
+import gql from 'graphql-tag'
 
 export default defineComponent({
   components: { HelloWorld },
@@ -18,9 +19,18 @@ export default defineComponent({
   },
   methods: {
     async loadMsg() {
+      // Can load msg by axios from http endpoint
       const res = await axios.get('/api')
       this.msg = res.data
     }
+  },
+  apollo: {
+    // And can load msg by graphql query
+    msg: gql`
+      query {
+        msg
+      }
+    `
   },
   created() {
     this.loadMsg()
